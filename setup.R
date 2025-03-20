@@ -9,6 +9,11 @@ if (!require("bslib")) install.packages("bslib")
 if (!require("rio")) install.packages("rio")
 if (!require("shiny")) install.packages("shiny")
 if (!require("shinydashboard")) install.packages("shinydashboard")
+if (!require("waiter")) install.packages("waiter")
+if (!require("shinyFeedback")) install.packages("shinyFeedback")
+if (!require("shinycssloaders")) install.packages("shinycssloaders")
+if (!require("shinyalert")) install.packages("shinyalert")
+
 
 
 
@@ -23,3 +28,7 @@ library(bslib)
 library(rio)
 library(shiny)
 library(shinydashboard)
+library(waiter)
+library(shinyFeedback)   
+library(shinycssloaders) 
+library(shinyalert)  

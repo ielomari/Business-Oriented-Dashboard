@@ -40,7 +40,8 @@ sales_plot <- plot_ly(
   type = "scatter",
   mode = "lines"
 ) %>%
-  layout(title = "Sales Trends Over Time",
+  layout(
+    # title = "Sales Trends Over Time",
          xaxis = list(title = "Date"),
          yaxis = list(title = "Total Revenue"))
 
