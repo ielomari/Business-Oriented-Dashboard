@@ -5,6 +5,10 @@ if (!require("dplyr")) install.packages("dplyr")
 if (!require("plotly")) install.packages("plotly")
 if (!require("lubridate")) install.packages("lubridate")
 if (!require("highcharter")) install.packages("highcharter")
+if (!require("bslib")) install.packages("bslib")
+if (!require("rio")) install.packages("rio")
+if (!require("shiny")) install.packages("shiny")
+if (!require("shinydashboard")) install.packages("shinydashboard")
 
 
 
@@ -15,3 +19,7 @@ library(dplyr)
 library(plotly)
 library(lubridate)
 library(highcharter)
+library(bslib)
+library(rio)
+library(shiny)
+library(shinydashboard)
