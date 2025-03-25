@@ -1,0 +1,97 @@
+---
+title: "Retail Dashboard Summary Report"
+output:
+  html_document:
+    toc: true
+    toc_depth: 2
+    number_sections: true
+params:
+  country: NULL
+  data: NULL
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE, message = FALSE, warning = FALSE)
+library(dplyr)
+library(ggplot2)
+```
+
+# Executive Summary
+
+This report provides a dynamic summary of retail sales performance. It is generated based on your selections in the dashboard.
+
+**Date generated:** `r Sys.Date()`  
+**Country filter:** `r ifelse(is.null(params$country) || params$country == "", "All Countries", params$country)`
+
+---
+
+# Data Overview
+
+```{r data-preview}
+data <- params$data
+
+if (is.null(data)) {
+  stop("No data was passed to the report. Please check your dashboard filters.")
+}
+
+# Filter by selected country if provided
+if (!is.null(params$country) && params$country != "") {
+  data <- data %>% filter(Country == params$country)
+}
+
+# Show summary of the filtered data
+summary(data)
+```
+
+---
+
+# Sales Trends
+
+```{r sales-trend-plot}
+data %>%
+  group_by(InvoiceDate) %>%
+  summarize(TotalRevenue = sum(Revenue, na.rm = TRUE)) %>%
+  ggplot(aes(x = InvoiceDate, y = TotalRevenue)) +
+  geom_line(color = "steelblue") +
+  labs(title = "Revenue Over Time", x = "Date", y = "Total Revenue") +
+  theme_minimal()
+```
+
+---
+
+# Top Selling Products
+
+```{r top-products}
+top_products <- data %>%
+  group_by(Description) %>%
+  summarize(QuantitySold = sum(Quantity)) %>%
+  arrange(desc(QuantitySold)) %>%
+  slice_max(QuantitySold, n = 10)
+
+ggplot(top_products, aes(x = reorder(Description, QuantitySold), y = QuantitySold)) +
+  geom_col(fill = "darkgreen") +
+  coord_flip() +
+  labs(title = "Top 10 Selling Products", x = "Product", y = "Quantity Sold") +
+  theme_minimal()
+```
+
+---
+
+# Customer Summary
+
+```{r customer-insights}
+customer_summary <- data %>%
+  group_by(CustomerID) %>%
+  summarize(TotalSpent = sum(Revenue), TotalOrders = n()) %>%
+  arrange(desc(TotalSpent))
+
+head(customer_summary, 10)
+```
+
+---
+
+# Conclusion
+
+This automatically generated report summarizes key retail KPIs based on your current dashboard view.
+
+*Thank you for using the Retail Sales Dashboard.*
