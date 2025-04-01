@@ -14,11 +14,17 @@ params:
 knitr::opts_chunk$set(echo = TRUE, message = FALSE, warning = FALSE)
 library(dplyr)
 library(ggplot2)
+
+data <- params$data
+if (is.null(data)) {
+  stop("No data was passed to the report. Please check your dashboard filters.")
+}
+data$InvoiceDate <- as.Date(data$InvoiceDate)
 ```
 
 # Executive Summary
 
-This report provides a dynamic summary of retail sales performance. It is generated based on your selections in the dashboard.
+This report provides a dynamic summary of retail sales performance for `r params$country`.
 
 **Date generated:** `r Sys.Date()`  
 **Country filter:** `r ifelse(is.null(params$country) || params$country == "", "All Countries", params$country)`
@@ -28,18 +34,6 @@ This report provides a dynamic summary of retail sales performance. It is genera
 # Data Overview
 
 ```{r data-preview}
-data <- params$data
-
-if (is.null(data)) {
-  stop("No data was passed to the report. Please check your dashboard filters.")
-}
-
-# Filter by selected country if provided
-if (!is.null(params$country) && params$country != "") {
-  data <- data %>% filter(Country == params$country)
-}
-
-# Show summary of the filtered data
 summary(data)
 ```
 
